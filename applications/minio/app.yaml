@@ -14,6 +14,9 @@ spec:
     targetRevision: 13.7.2
     helm:
       valuesObject:
+        image:
+          repository: public.ecr.aws/bitnami/minio
+          tag: 2024.3.5-debian-12-r0
         auth:
           rootUser: minio
           rootPassword: minio123
