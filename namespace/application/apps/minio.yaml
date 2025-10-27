@@ -1,42 +1,44 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
- name: minio
- namespace: infra-tools
+  name: minio
+  namespace: infra-tools
 spec:
- destination:
-  namespace: application
-  server: https://kubernetes.default.svc
- project: default
- source:
-  repoURL: https://charts.bitnami.com/bitnami
-  chart: minio
-  targetRevision: 13.7.2
-  helm:
-   valuesObject:
-    image:
-      repository: bitnamilegacy/minio
-      digest: sha256:953d489a81cc4de7975f90e07202189c4325da39b0b92470b6a13c7ea99e36cd
-    auth:
-     rootUser: minio
-     rootPassword: minio123
-    defaultBuckets: "mlflow-artifacts"
-    service:
-     type: ClusterIP
-     ports:
-      - name: minio-api
-        port: 9000
-        targetPort: 9000
-      - name: minio-console
-        port: 9001
-        targetPort: 9001
-    persistence:
-     enabled: false
- syncPolicy:
-  automated:
-   prune: true
-   selfHeal: true
-  syncOptions:
-   - CreateNamespace=true
-   - ServerSideApply=true
-   - SkipDryRunOnMissingResource=true
+  destination:
+    namespace: application
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: minio
+    targetRevision: 13.7.2
+    helm:
+      valuesObject:
+        image:
+          repository: bitnamilegacy/minio
+          digest: sha256:953d489a81cc4de7975f90e07202189c4325da39b0b92470b6a13c7ea99e36cd
+        auth:
+          rootUser: minio
+          rootPassword: minio123
+        defaultBuckets: "mlflow-artifacts"
+        service:
+          type: NodePort
+          ports:
+            - name: minio-api
+              port: 9000
+              targetPort: 9000
+              nodePort: 30900
+            - name: minio-console
+              port: 9001
+              targetPort: 9001
+              nodePort: 30901
+        persistence:
+          enabled: false
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
