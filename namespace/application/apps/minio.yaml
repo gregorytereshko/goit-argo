@@ -16,7 +16,7 @@ spec:
    valuesObject:
     image:
       repository: bitnamilegacy/minio
-      digest: sha256-953d489a81cc4de7975f90e07202189c4325da39b0b92470b6a13c7ea99e36cd
+      tag: sha256-953d489a81cc4de7975f90e07202189c4325da39b0b92470b6a13c7ea99e36cd
     auth:
      rootUser: minio
      rootPassword: minio123
