@@ -9,29 +9,26 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    repoURL: https://charts.min.io
+    repoURL: https://charts.bitnami.com/bitnami
     chart: minio
-    targetRevision: 5.3.0
+    targetRevision: 14.8.4
     helm:
       valuesObject:
-        replicas: 1
-        mode: standalone
-        rootUser: minio
-        rootPassword: minio123
-        buckets:
-          - name: mlflow-artifacts
-            policy: none
-            purge: false
+        image:
+          tag: latest
+        auth:
+          rootUser: minio
+          rootPassword: minio123
+        defaultBuckets: "mlflow-artifacts"
         service:
           type: ClusterIP
         persistence:
           enabled: false
-        resources:
-          requests:
-            memory: 512Mi
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true
+      - SkipDryRunOnMissingResource=true
