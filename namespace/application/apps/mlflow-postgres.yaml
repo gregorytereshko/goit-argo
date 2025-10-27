@@ -14,6 +14,9 @@ spec:
   targetRevision: 12.5.6
   helm:
    valuesObject:
+    image:
+      repository: bitnamilegacy/postgresql
+      digest: sha256:9c8137a169ccb1f4946137736fbfffd091f6ce9c95c1f504bd7c996e9938a4be
     auth:
      username: mlflow
      password: mlflowpass
