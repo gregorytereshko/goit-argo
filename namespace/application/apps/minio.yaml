@@ -15,8 +15,8 @@ spec:
   helm:
    valuesObject:
     image:
-      repository: minio/minio
-      tag: RELEASE.2025-09-07T16-13-09Z-cpuv1
+      repository: bitnamilegacy/minio
+      digest: sha256-953d489a81cc4de7975f90e07202189c4325da39b0b92470b6a13c7ea99e36cd
     auth:
      rootUser: minio
      rootPassword: minio123
