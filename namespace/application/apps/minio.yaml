@@ -24,14 +24,8 @@ spec:
         service:
           type: NodePort
           ports:
-            - name: minio-api
-              port: 9000
-              targetPort: 9000
-              nodePort: 30900
-            - name: minio-console
-              port: 9001
-              targetPort: 9001
-              nodePort: 30901
+            api: 9000
+            console: 9001
         persistence:
           enabled: false
   syncPolicy:
