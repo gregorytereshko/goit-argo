@@ -66,8 +66,10 @@ spec:
         pushgateway:
           enabled: true
           service:
-            type: ClusterIP
+            type: LoadBalancer
             port: 9091
+          podLabels:
+            app: pushgateway
 
         additionalServiceMonitors:
           - name: pushgateway
