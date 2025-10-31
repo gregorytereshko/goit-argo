@@ -87,6 +87,7 @@ spec:
     syncOptions:
       - Replace=true
       - ServerSideApply=true
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
