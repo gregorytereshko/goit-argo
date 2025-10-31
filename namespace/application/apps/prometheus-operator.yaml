@@ -34,6 +34,10 @@ spec:
             serviceMonitorSelector: {}
             serviceMonitorSelectorNilUsesHelmValues: false
             retention: 2d
+            additionalScrapeConfigs:
+              - job_name: 'pushgateway'
+                static_configs:
+                  - targets: [ 'pushgateway-prometheus-pushgateway.monitoring.svc.cluster.local:9091' ]
           service:
             type: LoadBalancer
 
@@ -84,7 +88,7 @@ spec:
     syncOptions:
       - Replace=true
       - ServerSideApply=true
-      - CreateNamespace=true  # 🔧 рекомендую добавить, если monitoring нет
+      - CreateNamespace=true
     automated:
       prune: true
       selfHeal: true
