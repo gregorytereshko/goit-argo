@@ -1,93 +1,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus-stack
+  name: pushgateway
   namespace: infra-tools
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   destination:
     namespace: monitoring
     server: "https://kubernetes.default.svc"
   source:
-    repoURL: "https://prometheus-community.github.io/helm-charts"
-    targetRevision: 56.7.0
-    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: prometheus-pushgateway
+    targetRevision: 2.5.0
     helm:
       valuesObject:
-        nameOverride: "prometheus-stack"
-
-        grafana:
-          adminPassword: prom-operator
-          ingress:
-            enabled: false
-
-        alertmanager:
-          enabled: true
-          ingress:
-            enabled: false
-          alertmanagerSpec:
-            forceEnableClusterMode: true
-
-        prometheusOperator:
-          admissionWebhooks:
-            enabled: false
-            patch:
-              enabled: false
-            certManager:
-              enabled: false
-            autoGenerateCert: false
-          tls:
-            enabled: false
-
-        prometheus:
-          ingress:
-            enabled: false
-          prometheusSpec:
-            retention: 2d
-            serviceMonitorSelectorNilUsesHelmValues: false
-            serviceMonitorSelector: {}
-
-        kubelet:
-          enabled: true
-          serviceMonitor:
-            enabled: true
-
-        kube-state-metrics:
-          prometheus:
-            monitor:
-              enabled: true
-
-        prometheus-node-exporter:
-          service:
-            port: 9200
-
-        pushgateway:
-          enabled: true
-          service:
-            type: LoadBalancer
-            port: 9091
-          podLabels:
-            app: pushgateway
-
-        additionalServiceMonitors:
-          - name: pushgateway
-            selector:
-              matchLabels:
-                app: pushgateway
-            namespaceSelector:
-              matchNames:
-                - monitoring
-            endpoints:
-              - port: http
-                path: /metrics
-                interval: 15s
+        service:
+          type: LoadBalancer
+          port: 9091
   syncPolicy:
     syncOptions:
-      - Replace=true
-      - ServerSideApply=true
       - CreateNamespace=true
+      - ServerSideApply=true
     automated:
       prune: true
       selfHeal: true
